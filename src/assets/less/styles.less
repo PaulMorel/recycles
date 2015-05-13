@@ -1,0 +1,201 @@
+/*!
+ * PAUL MOREL STYLESHEET
+ * URL: http://paulmorel.com
+ * Author: Paul Morel
+ * Author URL: http://paulmorel.com
+ * Date: February 2015
+ * Version: 3.0
+ */
+
+/* ============================================================================= */
+/* BASE STYLES */
+/* ============================================================================= */
+
+@import "normalize.less";
+
+// -----------------------------------------------------------------------------
+// Variables
+// -----------------------------------------------------------------------------
+
+// Main colours
+@color-bg:	#fff;
+@color-brand-primary: #4cbfab;
+
+// Information Colours
+@color-info-base-dark: #000; // For use on light backgrounds
+@color-info-background-dark: lighten(@color-info-base-dark, 96%);
+@color-info-dividers-dark: lighten(@color-info-base-dark, 88%);
+@color-info-disabled-dark: lighten(@color-info-base-dark, 74%);
+@color-info-secondary-dark: lighten(@color-info-base-dark, 50%);
+@color-info-primary-dark: lighten(@color-info-base-dark, 25%);
+
+// Social colours
+@color-social-facebook: #3b5998;
+@color-social-twitter: #00acee;
+@color-social-google: #db4a39;
+
+// Font Stack
+@font-default: 'Karmilla', 'Akkurat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+@font-size-base: 0.875em;
+@font-line-height:1.714285714;
+
+// Breakpoints
+@device-xs: e('(min-width: 30em)'); // 480px
+@device-sm: e('(min-width: 36em)'); // 572px
+@device-md: e('(min-width: 48em)'); // 768px
+@device-lg: e('(min-width: 62em)'); // 992px
+@device-xl: e('(min-width: 75em)'); // 1200px
+@device-xxl: e('(min-width: 90em)'); // 1200px
+
+// Frameless Grid
+@grid-column: 48px;
+@grid-gutter: 24px;
+
+.set-grid-width (@cols:1; @property:width) {
+	@{property}: (@cols * (@grid-column + @grid-gutter) - @grid-gutter);
+}
+
+.set-grid-offset (@cols:1; @property:margin-left) {
+	@{property}: (@cols * (@grid-column + @grid-gutter));
+}
+
+// -----------------------------------------------------------------------------
+// Extends
+// -----------------------------------------------------------------------------
+
+.clearfix {
+    &:before,
+    &:after {
+        content: " ";
+        display: table;
+    }
+    &:after {
+        clear: both;
+    }
+}
+
+/* ----------------------------------------------------------------------------- */
+/* Fonts */
+/* ----------------------------------------------------------------------------- */
+
+/* ----------------------------------------------------------------------------- */
+/* Animations */
+/* ----------------------------------------------------------------------------- */
+
+/* ----------------------------------------------------------------------------- */
+/* Base */
+/* ----------------------------------------------------------------------------- */
+
+html {
+	box-sizing: border-box;
+}
+
+*, *:before, *:after {
+	box-sizing: inherit;
+}
+
+body,  select, input, textarea  {
+	font-size: @font-size-base;
+	line-height: @font-line-height;
+	font-weight: normal;
+	font-family: @font-default;
+	color: @color-info-primary-dark;
+	position: relative;
+	padding: (@grid-gutter/2);
+}
+
+html, body  {
+	height: 100%;
+}
+
+a {
+    &:link, &:visited {
+		font-weight: bold;
+		color: @color-brand-primary;
+		text-decoration:none;
+		border-bottom: 1px solid transparent;
+    }
+
+    &:hover {
+		/*color: #fff;
+		background: @color-brand-primary;*/
+		border-bottom: 1px solid @color-brand-primary;
+		color: @color-brand-primary;
+    }
+    &:active {
+
+    }
+
+	&:hover[rel='external']:after {
+		content:'🔗';
+		margin: 0 0 0 5px;
+	}
+}
+
+h1 {
+    font-size: 1.5rem;
+    line-height: 3rem;
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+	text-transform: uppercase;
+}
+
+h2 {
+    font-size: 2rem;
+    line-height: 3rem;
+    margin-top: 3rem;
+    margin-bottom: 1.5rem;
+}
+
+h3 {
+    font-size: 1.1875rem;
+    line-height: 2rem;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+h4 {
+    font-size: 0.875rem;
+    line-height: 2rem;
+    margin-top: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+p, ul, ol, pre, table, blockquote, time {
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+}
+
+blockquote {
+	font-size: 1.5rem;
+  margin: 3rem 0;
+	border-top:2px solid @color-brand-primary;
+	border-bottom:2px solid @color-brand-primary;
+	line-height: 1.5;
+
+}
+
+pre {
+	padding: 1rem;
+	background: @color-info-background-dark;
+}
+
+time {
+	text-transform: capitalize;
+}
+
+/* ============================================================================= */
+/* LAYOUT STYLES */
+/* ============================================================================= */
+
+/* ============================================================================= */
+/* MODULE STYLES */
+/* ============================================================================= */
+
+/* ============================================================================= */
+/* THEME STYLES */
+/* ============================================================================= */
+
+/* ============================================================================= */
+/* STATE STYLES */
+/* ============================================================================= */

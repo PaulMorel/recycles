@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en-CA" class="no-js">
+<head>
+    <!-- Structural Meta -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+
+    <!-- Descriptive Meta -->
+    <title> </title>
+    <meta name="description" content=" ">
+    <meta name="keywords" content=" ">
+    <meta name="author" content=" ">
+    <link rel="canonical" href=" ">
+    <link rel="publisher" href=" ">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content=" ">
+    <meta property="og:locale" content=" ">
+    <meta property="og:type" content="website">
+    <meta property="og:description" content=" ">
+    <meta property="og:url" content=" ">
+    <meta property="og:site_name" content=" ">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@PaulJMorel">
+    <meta name="twitter:creator" content="@PaulJMorel">
+    <meta name="twitter:title" content="<?= $page->title()->html() ?>">
+    <meta name="twitter:description" content="<?= $page->description()->or($site->description())->html() ?>">
+    <meta name="twitter:image:src" content="<?= $page->image()->url() ?>">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="assets/css/styles.css">
+
+    <!-- JS -->
+
+</head>
+<body>
+    <header id="masthead" role="banner"></header>
+    <nav role="navigation"></nav>
+    <main role="main">
+        {{> body}}
+    </main>
+    <footer role="contentinfo">
+        
+    </footer>
+</body>
+</html>

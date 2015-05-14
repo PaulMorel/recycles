@@ -112,16 +112,60 @@ module.exports = function(grunt) {
 				assets: "<%= env.dev %>/assets",
 				layout: "<%= env.src %>/templates/layouts/default.hbs",
 				partials: "<%= env.src %>/templates/partials/*.hbs",
+				helpers: 'prettify',
+				prettify: {
+					condense: true,
+					padcomments: false,
+					indent_inner_html: false,
+					indent: 4,
+					wrap_line_length: 0
+				}
 			},
-			site: {
+			dev: {
 				options: {
 					//data: '<%= env.src %>/_data/en/*.{json,yml}',
 					site: { root: '<%= env.dev %>' }
 				},
 				expand: true,
-				cwd: '<%= env.src %>/_pages/',
-				src: '**/*.hbs',
-				dest: '<%= env.dev %>/en'
+				cwd: '<%= env.src %>/pages/',
+				src: '**/*.{hbs,html,md}',
+				dest: '<%= env.dev %>/'
+			}
+		},
+
+		/**
+		 * File Copying
+		 *
+		 * Copy files from source that
+		 * don't need processing.
+		 */
+		copy: {
+			dev: {
+				files: [
+					{
+						expand: true,
+						cwd: '<%= env.src %>/assets/',
+						src: ['type/**'],
+						dest: '<%= env.dev %>/assets/'
+					},
+					{
+						expand: true,
+						cwd: '<%= env.src %>/assets/',
+						src: ['js/lib/**'],
+						dest: '<%= env.dev %>/assets/'
+					}
+				]
+			}
+		},
+
+		concat: {
+			options: {
+				separator: ';\n',
+				nonull: true
+			},
+			dev: {
+				src: ['<%= env.src %>/assets/js/plugins/*.js'],
+				dest: '<%= env.dev %>/assets/js/plugins.js'
 			}
 		},
 
@@ -136,13 +180,16 @@ module.exports = function(grunt) {
 				tasks: ['less:dev','postcss:dev']
 			},
 			html: {
-				files: '<%= env.src %>/**/*.{hbs,json,yml,html}',
-				tasks: ['assemble:site']
+				files: '<%= env.src %>/**/*.{hbs,json,yml,html,md}',
+				tasks: ['assemble:dev']
 			},
 			img: {
-				files: '<%= env.src %>/**/*.{jpg,gif,png,jpeg,svg}',
+				files: '<%= env.src %>/assets/img/**/*.{jpg,gif,png,jpeg,svg}',
 				tasks: 'newer:imagemin:dev'
-			}
+			},
+			grunt: {
+	        	files: ['Gruntfile.js']
+	    	}
 		}
 	});
 
@@ -153,10 +200,12 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('assemble');
 	grunt.loadNpmTasks('grunt-contrib-imagemin');
 	grunt.loadNpmTasks('grunt-newer');
+	grunt.loadNpmTasks('grunt-contrib-copy');
+	grunt.loadNpmTasks('grunt-contrib-concat');
 
 	// Task Registering
 	grunt.registerTask('default', ['watch']);
-	//grunt.registerTask('build dev', ['clean:dist', 'less:dist', 'postcss:dist', 'cssmin:dist', 'copy:dist', 'imagemin:dist', 'concat:dist' ]);
+	grunt.registerTask('build:dev', ['less:dev', 'postcss:dev', 'copy:dev', 'imagemin:dev', 'concat:dev', 'assemble:dev' ]);
 	//grunt.registerTask('build dist', ['clean:dist', 'less:dist', 'postcss:dist', 'cssmin:dist', 'copy:dist', 'imagemin:dist', 'concat:dist' ]);
 	grunt
 };

@@ -71,8 +71,8 @@ module.exports = function(grunt) {
 				roundingPrecision: -1
 			},
 			dist: {
-				src: '<%= env.src %>/assets/less/styles.less',
-				dest: '<%= env.dev %>/assets/css/styles.css'
+				src: '<%= env.dev %>/assets/css/styles.css',
+				dest: '<%= env.dist %>/assets/css/styles.css'
 			}
 		},
 
@@ -87,7 +87,7 @@ module.exports = function(grunt) {
 				files: [{
 					expand: true,
 					cwd: '<%= env.src %>/assets/img/',
-					src: ['**/*.{png,jpg,gif,svg}'],
+					src: ['{,*/}.{png,jpg,gif,svg}'],
 					dest: '<%= env.dev %>/assets/img/'
 				}]
 			},
@@ -95,7 +95,7 @@ module.exports = function(grunt) {
 				files: [{
 					expand: true,
 					cwd: '<%= env.src %>/assets/img/',
-					src: ['**/*.{png,jpg,gif,svg}'],
+					src: ['{,*/}.{png,jpg,gif,svg}'],
 					dest: '<%= env.dist %>/assets/img/'
 				}]
 			}
@@ -109,9 +109,9 @@ module.exports = function(grunt) {
 		 */
 		assemble: {
 			options: {
-				assets: "<%= env.dev %>/assets",
-				layout: "<%= env.src %>/templates/layouts/default.hbs",
-				partials: "<%= env.src %>/templates/partials/*.hbs",
+				layout: 'default.hbs',
+				layoutdir: '<%= env.src %>/templates/layouts/',
+				partials: '<%= env.src %>/templates/partials/*.hbs',
 				helpers: 'prettify',
 				prettify: {
 					condense: true,
@@ -123,13 +123,23 @@ module.exports = function(grunt) {
 			},
 			dev: {
 				options: {
-					//data: '<%= env.src %>/_data/en/*.{json,yml}',
+					assets: '<%= env.dev %>/assets',
 					site: { root: '<%= env.dev %>' }
 				},
 				expand: true,
 				cwd: '<%= env.src %>/pages/',
 				src: '**/*.{hbs,html,md}',
 				dest: '<%= env.dev %>/'
+			},
+			dist: {
+				options: {
+					assets: '<%= env.dist %>/assets',
+					site: { root: '<%= env.dist %>' }
+				},
+				expand: true,
+				cwd: '<%= env.src %>/pages/',
+				src: '**/*.{hbs,html,md}',
+				dest: '<%= env.dist %>/'
 			}
 		},
 
@@ -141,20 +151,20 @@ module.exports = function(grunt) {
 		 */
 		copy: {
 			dev: {
-				files: [
-					{
+				files: {
 						expand: true,
 						cwd: '<%= env.src %>/assets/',
-						src: ['type/**'],
+						src: ['type/*','js/lib/*.js','js/main.js'],
 						dest: '<%= env.dev %>/assets/'
-					},
-					{
+				}
+			},np
+			dist: {
+				files: {
 						expand: true,
 						cwd: '<%= env.src %>/assets/',
-						src: ['js/lib/**'],
-						dest: '<%= env.dev %>/assets/'
-					}
-				]
+						src: ['type/*','js/lib/*.js','js/main.js'],
+						dest: '<%= env.dist %>/assets/'
+				}
 			}
 		},
 
@@ -166,6 +176,21 @@ module.exports = function(grunt) {
 			dev: {
 				src: ['<%= env.src %>/assets/js/plugins/*.js'],
 				dest: '<%= env.dev %>/assets/js/plugins.js'
+			},
+			dist: {
+				src: ['<%= env.src %>/assets/js/plugins/*.js'],
+				dest: '<%= env.dist %>/assets/js/plugins.js'
+			}
+		},
+
+		uglify: {
+			dist: {
+				files: [{
+					expand: true,
+					cwd: '<%= env.dev %>/assets/js',
+					src: '{,*/}.js',
+					dest: '<%= env.dist %>/assets/js'
+				}]
 			}
 		},
 
@@ -175,8 +200,11 @@ module.exports = function(grunt) {
 		 * Watches for file changes.
 		 */
 		watch: {
+			options: {
+				spawn: false,
+			},
 			less: {
-				files: '<%= env.src %>/assets/less/**/*.less',
+				files: '<%= env.src %>/assets/less/{,*/}.less',
 				tasks: ['less:dev','postcss:dev']
 			},
 			html: {
@@ -184,28 +212,33 @@ module.exports = function(grunt) {
 				tasks: ['assemble:dev']
 			},
 			img: {
-				files: '<%= env.src %>/assets/img/**/*.{jpg,gif,png,jpeg,svg}',
+				files: '<%= env.src %>/assets/img/{,*/}.{jpg,gif,png,jpeg,svg}',
 				tasks: 'newer:imagemin:dev'
 			},
-			grunt: {
+			js: {
+				files: '<%= env.src %>/assets/js/{,*/}.js',
+				tasks: ['newer:copy:dev','concat:dev']
+			},
+			config: {
 	        	files: ['Gruntfile.js']
 	    	}
 		}
 	});
 
 	// Task Loading
-	grunt.loadNpmTasks('grunt-contrib-less');
 	grunt.loadNpmTasks('grunt-contrib-watch');
-	grunt.loadNpmTasks('grunt-postcss');
-	grunt.loadNpmTasks('assemble');
+	grunt.loadNpmTasks('grunt-contrib-less');
+	grunt.loadNpmTasks('grunt-contrib-cssmin');
 	grunt.loadNpmTasks('grunt-contrib-imagemin');
-	grunt.loadNpmTasks('grunt-newer');
 	grunt.loadNpmTasks('grunt-contrib-copy');
 	grunt.loadNpmTasks('grunt-contrib-concat');
+	grunt.loadNpmTasks('grunt-contrib-uglify');
+	grunt.loadNpmTasks('grunt-postcss');
+	grunt.loadNpmTasks('grunt-newer');
+	grunt.loadNpmTasks('assemble');
 
 	// Task Registering
 	grunt.registerTask('default', ['watch']);
 	grunt.registerTask('build:dev', ['less:dev', 'postcss:dev', 'copy:dev', 'imagemin:dev', 'concat:dev', 'assemble:dev' ]);
-	//grunt.registerTask('build dist', ['clean:dist', 'less:dist', 'postcss:dist', 'cssmin:dist', 'copy:dist', 'imagemin:dist', 'concat:dist' ]);
-	grunt
+	grunt.registerTask('build:dist', ['less:dist', 'postcss:dist', 'cssmin:dist', 'copy:dist', 'concat:dist', 'uglify:dist', 'imagemin:dist', 'assemble:dist']);
 };

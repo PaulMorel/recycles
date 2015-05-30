@@ -1,6 +1,4 @@
 // Grunt Configuration
-// Date: 	Created on 2015-04-24
-// Author: 	Paul Morel
 module.exports = function(grunt) {
 
 	// Task Configuration
@@ -26,18 +24,18 @@ module.exports = function(grunt) {
 					strictMath: true,
 					sourceMap: true,
 					sourceMapURL: 'styles.css.map',
-					sourceMapFilename: '<%= env.dev %>/assets/css/styles.css.map'
+					sourceMapFilename: '/assets/css/styles.css.map'
 				},
-				src: '<%= env.src %>/assets/less/styles.less',
-				dest: '<%= env.dev %>/assets/css/styles.css'
+				src: '/assets/less/styles.less',
+				dest: '/assets/css/styles.css'
 			},
 			dist: {
 				options: {
 					strictMath: true,
 					sourceMap: false,
 				},
-				src: '<%= env.src %>/assets/less/styles.less',
-				dest: '<%= env.dist %>/assets/css/styles.css'
+				src: '/assets/less/styles.less',
+				dest: '/assets/css/styles.css'
 			}
 		},
 		/**
@@ -54,10 +52,10 @@ module.exports = function(grunt) {
 				]
 			},
 			dev: {
-				src: '<%= env.dev %>/assets/css/styles.css'
+				src: '/assets/css/styles.css'
 			},
 			dist: {
-				src: '<%= env.dist %>/assets/css/styles.css'
+				src: '/assets/css/styles.css'
 			},
 		},
 		/**
@@ -71,8 +69,8 @@ module.exports = function(grunt) {
 				roundingPrecision: -1
 			},
 			dist: {
-				src: '<%= env.dev %>/assets/css/styles.css',
-				dest: '<%= env.dist %>/assets/css/styles.css'
+				src: '/assets/css/styles.css',
+				dest: '/assets/css/styles.css'
 			}
 		},
 
@@ -86,17 +84,17 @@ module.exports = function(grunt) {
 			dev: {
 				files: [{
 					expand: true,
-					cwd: '<%= env.src %>/assets/img/',
+					cwd: '/assets/img/',
 					src: ['{,*/}.{png,jpg,gif,svg}'],
-					dest: '<%= env.dev %>/assets/img/'
+					dest: '/assets/img/'
 				}]
 			},
 			dist: {
 				files: [{
 					expand: true,
-					cwd: '<%= env.src %>/assets/img/',
+					cwd: '/assets/img/',
 					src: ['{,*/}.{png,jpg,gif,svg}'],
-					dest: '<%= env.dist %>/assets/img/'
+					dest: '/assets/img/'
 				}]
 			}
 		},
@@ -110,8 +108,8 @@ module.exports = function(grunt) {
 		assemble: {
 			options: {
 				layout: 'default.hbs',
-				layoutdir: '<%= env.src %>/templates/layouts/',
-				partials: '<%= env.src %>/templates/partials/*.hbs',
+				layoutdir: '/templates/layouts/',
+				partials: '/templates/partials/*.hbs',
 				helpers: 'prettify',
 				prettify: {
 					condense: true,
@@ -123,23 +121,23 @@ module.exports = function(grunt) {
 			},
 			dev: {
 				options: {
-					assets: '<%= env.dev %>/assets',
-					site: { root: '<%= env.dev %>' }
+					assets: '/assets',
+					site: { root: '' }
 				},
 				expand: true,
-				cwd: '<%= env.src %>/pages/',
+				cwd: '/pages/',
 				src: '**/*.{hbs,html,md}',
-				dest: '<%= env.dev %>/'
+				dest: '/'
 			},
 			dist: {
 				options: {
-					assets: '<%= env.dist %>/assets',
-					site: { root: '<%= env.dist %>' }
+					assets: '/assets',
+					site: { root: '' }
 				},
 				expand: true,
-				cwd: '<%= env.src %>/pages/',
+				cwd: '/pages/',
 				src: '**/*.{hbs,html,md}',
-				dest: '<%= env.dist %>/'
+				dest: '/'
 			}
 		},
 
@@ -153,17 +151,17 @@ module.exports = function(grunt) {
 			dev: {
 				files: {
 						expand: true,
-						cwd: '<%= env.src %>/assets/',
+						cwd: '/assets/',
 						src: ['type/*','js/lib/*.js','js/main.js'],
-						dest: '<%= env.dev %>/assets/'
+						dest: '/assets/'
 				}
 			},np
 			dist: {
 				files: {
 						expand: true,
-						cwd: '<%= env.src %>/assets/',
+						cwd: '/assets/',
 						src: ['type/*','js/lib/*.js','js/main.js'],
-						dest: '<%= env.dist %>/assets/'
+						dest: '/assets/'
 				}
 			}
 		},
@@ -174,12 +172,12 @@ module.exports = function(grunt) {
 				nonull: true
 			},
 			dev: {
-				src: ['<%= env.src %>/assets/js/plugins/*.js'],
-				dest: '<%= env.dev %>/assets/js/plugins.js'
+				src: ['/assets/js/plugins/*.js'],
+				dest: '/assets/js/plugins.js'
 			},
 			dist: {
-				src: ['<%= env.src %>/assets/js/plugins/*.js'],
-				dest: '<%= env.dist %>/assets/js/plugins.js'
+				src: ['/assets/js/plugins/*.js'],
+				dest: '/assets/js/plugins.js'
 			}
 		},
 
@@ -187,9 +185,9 @@ module.exports = function(grunt) {
 			dist: {
 				files: [{
 					expand: true,
-					cwd: '<%= env.dev %>/assets/js',
+					cwd: '/assets/js',
 					src: '{,*/}.js',
-					dest: '<%= env.dist %>/assets/js'
+					dest: '/assets/js'
 				}]
 			}
 		},
@@ -204,19 +202,19 @@ module.exports = function(grunt) {
 				spawn: false,
 			},
 			less: {
-				files: '<%= env.src %>/assets/less/{,*/}.less',
+				files: '/assets/less/{,*/}.less',
 				tasks: ['less:dev','postcss:dev']
 			},
 			html: {
-				files: '<%= env.src %>/**/*.{hbs,json,yml,html,md}',
+				files: '/**/*.{hbs,json,yml,html,md}',
 				tasks: ['assemble:dev']
 			},
 			img: {
-				files: '<%= env.src %>/assets/img/{,*/}.{jpg,gif,png,jpeg,svg}',
+				files: '/assets/img/{,*/}.{jpg,gif,png,jpeg,svg}',
 				tasks: 'newer:imagemin:dev'
 			},
 			js: {
-				files: '<%= env.src %>/assets/js/{,*/}.js',
+				files: '/assets/js/{,*/}.js',
 				tasks: ['newer:copy:dev','concat:dev']
 			},
 			config: {

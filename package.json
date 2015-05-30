@@ -1,9 +1,8 @@
 {
   "name": "recycles",
-  "version": "0.1.0",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/PaulMorel/recycles.git"
+  "version": "0.0.0",
+  "author": {
+      "name": "Paul Morel"
   },
   "devDependencies": {
     "grunt": "^0.4.5",

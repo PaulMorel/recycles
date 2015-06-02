@@ -1,3 +1,4 @@
+
 # About Re-Cycles
 
 Re-Cycles was founded on the principle that our limited natural resources should be used wisely. As such, our goals are to:

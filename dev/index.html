@@ -1,7 +1,7 @@
-{{#prettify}}
 <!doctype html>
 <html lang="en" class="no-js">
 <head itemscope itemtype="http://schema.org/WebSite">
+
     <!-- Structural Meta -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -34,23 +34,56 @@
     <link rel="stylesheet" href="assets/css/styles.css">
 
     <!-- JS -->
-
 </head>
 <body itemscope itemtype="http://schema.org/WebPage">
     <header class="masthead" role="banner">
+    </header>
 
-    </header><!-- end header.masthead -->
+    <!-- end header.masthead -->
     <nav role="navigation">
+    </nav>
 
-    </nav><!-- end nav -->
+    <!-- end nav -->
     <main role="main">
-        {{#markdown}}
-            {{> body}}
-        {{/markdown}}
-    </main><!-- end main -->
-    <footer role="contentinfo">
+        <h1 id="heading-1">Heading 1</h1> 
+        <p>Paragraph</p>
+        <h2 id="heading-2">Heading 2</h2> 
+        <p>Paragraph</p>
+        <ul>
+            <li>List Item 1</li>
+            <li>List Item 2</li>
+            <li>List Item 3</li>
+            <li>List Item 4</li>
+        </ul>
+        <h3 id="heading-3">Heading 3</h3> 
+        <blockquote>
+            <p>Blockquote</p>
+        </blockquote>
+        <h2 id="heading-2">Heading 2</h2> 
+        <ul>
+            <li>
+                <a href="#nowhere" title="Lorum ipsum dolor sit amet">Lorem</a> 
+            </li>
+            <li>
+                <a href="#nowhere" title="Aliquam tincidunt mauris eu risus">Aliquam</a> 
+            </li>
+            <li>
+                <a href="#nowhere" title="Morbi in sem quis dui placerat ornare">Morbi</a> 
+            </li>
+            <li>
+                <a href="#nowhere" title="Praesent dapibus, neque id cursus faucibus">Praesent</a> 
+            </li>
+            <li>
+                <a href="#nowhere" title="Pellentesque fermentum dolor">Pellentesque</a> 
+            </li>
+        </ul>
+    </main>
 
-    </footer><!-- end footer -->
+    <!-- end main -->
+    <footer role="contentinfo">
+    </footer>
+
+    <!-- end footer -->
 </body>
 </html>
-{{/prettify}}
+

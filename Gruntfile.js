@@ -1,4 +1,5 @@
 // Grunt Configuration
+'use strict';
 module.exports = function(grunt) {
 
 	// Task Configuration
@@ -24,18 +25,18 @@ module.exports = function(grunt) {
 					strictMath: true,
 					sourceMap: true,
 					sourceMapURL: 'styles.css.map',
-					sourceMapFilename: '/assets/css/styles.css.map'
+					sourceMapFilename: '<%= env.dev %>/assets/css/styles.css.map'
 				},
-				src: '/assets/less/styles.less',
-				dest: '/assets/css/styles.css'
+				src: '<%= env.src %>/assets/less/styles.less',
+				dest: '<%= env.dev %>/assets/css/styles.css'
 			},
 			dist: {
 				options: {
 					strictMath: true,
-					sourceMap: false,
+					sourceMap: false
 				},
-				src: '/assets/less/styles.less',
-				dest: '/assets/css/styles.css'
+				src: '<%= env.src %>/assets/less/styles.less',
+				dest: '<%= env.dist %>/assets/css/styles.css'
 			}
 		},
 		/**
@@ -46,17 +47,19 @@ module.exports = function(grunt) {
 		 */
 		postcss: {
 			options: {
-				map: true,
 				processors: [
-					require('autoprefixer-core')({ browsers: ['last 3 version'] }).postcss
+					require('autoprefixer-core')({ browsers: ['last 3 version'] })
 				]
 			},
 			dev: {
-				src: '/assets/css/styles.css'
+				options: {
+					map: true
+				},
+				src: '<%= env.dev %>/assets/css/styles.css'
 			},
 			dist: {
-				src: '/assets/css/styles.css'
-			},
+				src: '<%= env.dist %>/assets/css/styles.css'
+			}
 		},
 		/**
 		 * CSS Minimization
@@ -69,8 +72,8 @@ module.exports = function(grunt) {
 				roundingPrecision: -1
 			},
 			dist: {
-				src: '/assets/css/styles.css',
-				dest: '/assets/css/styles.css'
+				src: '<%= env.dev %>/assets/css/styles.css',
+				dest: '<%= env.dist %>/assets/css/styles.css'
 			}
 		},
 
@@ -84,17 +87,17 @@ module.exports = function(grunt) {
 			dev: {
 				files: [{
 					expand: true,
-					cwd: '/assets/img/',
+					cwd: '<%= env.src %>/assets/img/',
 					src: ['{,*/}.{png,jpg,gif,svg}'],
-					dest: '/assets/img/'
+					dest: '<%= env.dev %>/assets/img/'
 				}]
 			},
 			dist: {
 				files: [{
 					expand: true,
-					cwd: '/assets/img/',
+					cwd: '<%= env.src %>/assets/img/',
 					src: ['{,*/}.{png,jpg,gif,svg}'],
-					dest: '/assets/img/'
+					dest: '<%= env.dist %>/assets/img/'
 				}]
 			}
 		},
@@ -108,12 +111,12 @@ module.exports = function(grunt) {
 		assemble: {
 			options: {
 				layout: 'default.hbs',
-				layoutdir: '/templates/layouts/',
-				partials: '/templates/partials/*.hbs',
+				layoutdir: '<%= env.src %>/templates/layouts/',
+				partials: '<%= env.src %>/templates/partials/*.hbs',
 				helpers: 'prettify',
 				prettify: {
 					condense: true,
-					padcomments: false,
+					padcomments: true,
 					indent_inner_html: false,
 					indent: 4,
 					wrap_line_length: 0
@@ -121,23 +124,23 @@ module.exports = function(grunt) {
 			},
 			dev: {
 				options: {
-					assets: '/assets',
-					site: { root: '' }
+					assets: '<%= env.dev %>/assets',
+					site: { root: '<%= env.dev %>' }
 				},
 				expand: true,
-				cwd: '/pages/',
+				cwd: '<%= env.src %>/pages/',
 				src: '**/*.{hbs,html,md}',
-				dest: '/'
+				dest: '<%= env.dev %>/'
 			},
 			dist: {
 				options: {
-					assets: '/assets',
-					site: { root: '' }
+					assets: '<%= env.dist %>/assets',
+					site: { root: '<%= env.dist %>' }
 				},
 				expand: true,
-				cwd: '/pages/',
+				cwd: '<%= env.src %>/pages/',
 				src: '**/*.{hbs,html,md}',
-				dest: '/'
+				dest: '<%= env.dist %>/'
 			}
 		},
 
@@ -149,20 +152,20 @@ module.exports = function(grunt) {
 		 */
 		copy: {
 			dev: {
-				files: {
+				files: [{
 						expand: true,
-						cwd: '/assets/',
+						cwd: '<%= env.src %>/assets/',
 						src: ['type/*','js/lib/*.js','js/main.js'],
-						dest: '/assets/'
-				}
-			},np
+						dest: '<%= env.dev %>/assets/'
+				}]
+			},
 			dist: {
-				files: {
+				files: [{
 						expand: true,
-						cwd: '/assets/',
+						cwd: '<%= env.src %>/assets/',
 						src: ['type/*','js/lib/*.js','js/main.js'],
-						dest: '/assets/'
-				}
+						dest: '<%= env.dist %>/assets/'
+				}]
 			}
 		},
 
@@ -172,12 +175,12 @@ module.exports = function(grunt) {
 				nonull: true
 			},
 			dev: {
-				src: ['/assets/js/plugins/*.js'],
-				dest: '/assets/js/plugins.js'
+				src: ['<%= env.src %>/assets/js/plugins/*.js'],
+				dest: '<%= env.dev %>/assets/js/plugins.js'
 			},
 			dist: {
-				src: ['/assets/js/plugins/*.js'],
-				dest: '/assets/js/plugins.js'
+				src: ['<%= env.src %>/assets/js/plugins/*.js'],
+				dest: '<%= env.dist %>/assets/js/plugins.js'
 			}
 		},
 
@@ -185,9 +188,9 @@ module.exports = function(grunt) {
 			dist: {
 				files: [{
 					expand: true,
-					cwd: '/assets/js',
+					cwd: '<%= env.dev %>/assets/js',
 					src: '{,*/}.js',
-					dest: '/assets/js'
+					dest: '<%= env.dist %>/assets/js'
 				}]
 			}
 		},
@@ -199,22 +202,22 @@ module.exports = function(grunt) {
 		 */
 		watch: {
 			options: {
-				spawn: false,
+				spawn: false
 			},
 			less: {
-				files: '/assets/less/{,*/}.less',
+				files: '<%= env.src %>/assets/less/{,*/}.less',
 				tasks: ['less:dev','postcss:dev']
 			},
 			html: {
-				files: '/**/*.{hbs,json,yml,html,md}',
+				files: '<%= env.src %>/**/*.{hbs,json,yml,html,md}',
 				tasks: ['assemble:dev']
 			},
 			img: {
-				files: '/assets/img/{,*/}.{jpg,gif,png,jpeg,svg}',
+				files: '<%= env.src %>/assets/img/{,*/}.{jpg,gif,png,jpeg,svg}',
 				tasks: 'newer:imagemin:dev'
 			},
 			js: {
-				files: '/assets/js/{,*/}.js',
+				files: '<%= env.src %>/assets/js/{,*/}.js',
 				tasks: ['newer:copy:dev','concat:dev']
 			},
 			config: {
@@ -237,6 +240,6 @@ module.exports = function(grunt) {
 
 	// Task Registering
 	grunt.registerTask('default', ['watch']);
-	grunt.registerTask('build:dev', ['less:dev', 'postcss:dev', 'copy:dev', 'imagemin:dev', 'concat:dev', 'assemble:dev' ]);
+	grunt.registerTask('build:dev', ['less:dev', 'postcss:dev', 'copy:dev', 'imagemin:dev', 'concat:dev', 'assemble:dev']);
 	grunt.registerTask('build:dist', ['less:dist', 'postcss:dist', 'cssmin:dist', 'copy:dist', 'concat:dist', 'uglify:dist', 'imagemin:dist', 'assemble:dist']);
 };
